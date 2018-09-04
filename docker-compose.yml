@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+    test-db:
+        image: mariadb:latest
+        ports:
+            - 9597:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassw
+            MYSQL_DATABASE: t
+            MYSQL_USER: e
+            MYSQL_PASSWORD: s
+        
+    test-wp:
+        image: wordpress:latest
+        depends_on:
+            - test-db
+        ports:
+            - 9600:80
+        links:
+            - test-db:mysql
+        volumes:
+            - ./themes/:/var/www/html/wp-content/themes/
+        environment:
+            WORDPRESS_DB_HOST: test-db
+            WORDPRESS_DB_USER: e
+            WORDPRESS_DB_NAME: t
+            WORDPRESS_DB_PASSWORD: s
+        
